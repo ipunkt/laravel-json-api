@@ -65,3 +65,34 @@ Resource items can have a self link too. This will be added automatically by the
 
 Relationships and the items itself can have a links section with the self and related link. These can all be added automatically by the package. You can turn that off, if you do not need it.
 
+## Definition
+
+### Setup
+
+We suggest using the `app/Providers/AppServiceProvider` or create your own `ApiResourceServiceProvider`.
+
+Customize your `boot` method to type hint the `\Ipunkt\LaravelJsonApi\Resources\ResourceManager` as parameter, like so:
+
+```php
+public function boot(ResourceManager $resourceManager)
+```
+
+### Define a resource
+
+The `JsonApiController` handles the incoming api request. It uses the `ResourceManager` to get to know all defined resources. So define your resources like so:
+
+```php
+//  define in api version 1 a resource called 'posts'
+$resourceManager->version(1)
+    ->define('posts', function (ResourceDefinition $resource) {
+        $resource->setSerializer(PostSerializer::class)
+            ->setRepository(PostRepository::class);
+    });
+```
+Each Api has various versions, 1 at minimum.
+
+For each version you can define resources (URL `/public/v1/posts`) and as a callback you can define various types: at least a repository for fetching the resource models and a serializer to transform the fetched model data into your wanted format.
+
+Additionally you can define a custom request handler. There you can process the whole request yourself until returning the response. So you have full control.
+
+The Json Api Standard has various filter options. We have a Filter Factory to support this kind of layer. A Filter Factory handles the given filter and sets it to the repository by default. So you can filter by attribute or search within a time period through request parameters. If you want to use filter you have to define a filter factory. Otherwise your filters will not be applied.

@@ -23,6 +23,12 @@ Publish Configuration (optional step, but suggested):
 php artisan vendor:publish --provider="Ipunkt\LaravelJsonApi\LaravelJsonApiServiceProvider"
 ```
 
+Set the necessary middleware in `app/Http/Kernel.php`:
+```php
+'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+```
+
 ## Configuration
 
 By default the package configures all routes itself. This is the suggested option.
@@ -45,7 +51,7 @@ Here you can configure the `prefix` for the route and the `controller` for handl
 
 Secure routes check authentication with each request. Here you need a JWT access token for accessing these resources.
 
-Here you can configure the `prefix` for the route and the `controller` for handling requests. You have also the option to define `middleware`. A `jwt.auth` called middleware is configured by default. We suggest installing `tymon/jwt-auth` for handling the JWT authentication part. Create a kernel entry for `Tymon\JWTAuth\Middleware\GetUserFromToken` for key `jwt.auth`.
+Here you can configure the `prefix` for the route and the `controller` for handling requests. You have also the option to define `middleware`. A `jwt.auth` called middleware is configured by default.
 
 ### response section
 

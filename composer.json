@@ -1,0 +1,32 @@
+{
+    "name": "ipunkt/laravel-json-api",
+    "description": "JSON Api Package for Laravel",
+    "type": "library",
+    "require": {
+        "php": ">=7.0",
+        "illuminate/support": "^5.2",
+        "illuminate/contracts": "^5.2",
+        "illuminate/http": "^5.2",
+        "illuminate/database": "^5.2",
+        "illuminate/container": "^5.2",
+        "illuminate/routing": "^5.2",
+        "tobscure/json-api": "^0.3.0",
+        "tymon/jwt-auth": "0.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ipunkt\\LaravelJsonApi\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robert Kummer",
+            "email": "rok@ipunkt.biz"
+        }
+    ],
+    "minimum-stability": "stable"
+}

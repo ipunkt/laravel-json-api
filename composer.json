@@ -4,6 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=7.0",
+        "laravel/framework": "^5.2",
         "illuminate/support": "^5.2",
         "illuminate/contracts": "^5.2",
         "illuminate/http": "^5.2",

@@ -29,6 +29,8 @@ Set the necessary middleware in `app/Http/Kernel.php`:
 'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
 ```
 
+Please follow the installation instructions documented [here](https://github.com/tymondesigns/jwt-auth/wiki/Installation) for the `tymon/auth` package.
+
 ## Configuration
 
 By default the package configures all routes itself. This is the suggested option.

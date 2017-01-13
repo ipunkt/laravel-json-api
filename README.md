@@ -85,8 +85,8 @@ The `JsonApiController` handles the incoming api request. It uses the `ResourceM
 //  define in api version 1 a resource called 'posts'
 $resourceManager->version(1)
     ->define('posts', function (ResourceDefinition $resource) {
-        $resource->setSerializer(PostSerializer::class)
-            ->setRepository(PostRepository::class);
+        $resource->setRepository(PostRepository::class)
+            ->setSerializer(PostSerializer::class);
     });
 ```
 Each Api has various versions, 1 at minimum.
@@ -97,7 +97,19 @@ Additionally you can define a custom request handler. There you can process the 
 
 The Json Api Standard has various filter options. We have a Filter Factory to support this kind of layer. A Filter Factory handles the given filter and sets it to the repository by default. So you can filter by attribute or search within a time period through request parameters. If you want to use filter you have to define a filter factory. Otherwise your filters will not be applied.
 
-### Example Serializer
+If you want to use a secure api route, you have to setup a request handler as well:
+```php
+//  define in api version 1 a resource called 'posts'
+$resourceManager->version(1)
+    ->define('posts', function (ResourceDefinition $resource) {
+        $resource->setRepository(PostRepository::class)
+            ->setSerializer(PostSerializer::class)
+            ->setRequestHandler(PostRequestHandler::class);
+    });
+```
+
+
+### Implement a Serializer
 
 ```php
 class PostSerializer extends \Ipunkt\LaravelJsonApi\Serializers\Serializer
@@ -140,7 +152,7 @@ class PostSerializer extends \Ipunkt\LaravelJsonApi\Serializers\Serializer
 }
 ```
 
-### Example Repository
+### Implement a Repository
 
 Follows the repository pattern and stores default sort criteria and a mapping for parameter request to database field name.
 
@@ -182,3 +194,20 @@ class PostRepository extends \Ipunkt\LaravelJsonApi\Repositories\Repository
     }
 }
 ```
+
+### Implement a Request Handler
+
+We provide a request handler for handling retrieval requests (GET): `DefaultRequestHandler`.
+
+The `\Ipunkt\LaravelJsonApi\Contracts\RequestHandlers\NeedsAuthenticatedUser` interface controls that your resource can be accessed via the secure route. Without you have to use the public route.
+
+```php
+class PostRequestHandler extends \Ipunkt\LaravelJsonApi\Http\RequestHandlers\DefaultRequestHandler implements NeedsAuthenticatedUser
+{
+
+}
+```
+
+If you need more freedom then create a request handler yourself and inherit from `Ipunkt\LaravelJsonApi\Http\RequestHandlers\RequestHandler`. The whole configured actions will be provided by various interfaces in the namespace `Ipunkt\LaravelJsonApi\Contracts\RequestHandlers`: `HandlesCollectionRequest`, `HandlesItemRequest`, `HandlesRelationshipCollectionRequest`, `HandlesRelationshipItemRequest` and the modifiable interfaces `HandlesPostRequest`, `HandlesPatchRequest`, `HandlesDeleteRequest` and the relationship interfaces as well. Take a look yourself.
+
+You can simplify the data modification requests by using one of the delivered traits within your own request handler. The traits can be found under `Ipunkt\LaravelJsonApi\Http\RequestHandlers\Traits`. Take a look yourself.

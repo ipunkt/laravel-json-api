@@ -213,3 +213,7 @@ class PostRequestHandler extends \Ipunkt\LaravelJsonApi\Http\RequestHandlers\Def
 If you need more freedom then create a request handler yourself and inherit from `Ipunkt\LaravelJsonApi\Http\RequestHandlers\RequestHandler`. The whole configured actions will be provided by various interfaces in the namespace `Ipunkt\LaravelJsonApi\Contracts\RequestHandlers`: `HandlesCollectionRequest`, `HandlesItemRequest`, `HandlesRelationshipCollectionRequest`, `HandlesRelationshipItemRequest` and the modifiable interfaces `HandlesPostRequest`, `HandlesPatchRequest`, `HandlesDeleteRequest` and the relationship interfaces as well. Take a look yourself.
 
 You can simplify the data modification requests by using one of the delivered traits within your own request handler. The traits can be found under `Ipunkt\LaravelJsonApi\Http\RequestHandlers\Traits`. Take a look yourself.
+
+## Test
+
+We provide a trait for adding functionality for json api testing in the `tests/TestCase.php`: `\Ipunkt\LaravelJsonApi\Testing\ApiTestCaseTrait`.

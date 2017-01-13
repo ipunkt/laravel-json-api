@@ -114,7 +114,7 @@ class PostSerializer extends \Ipunkt\LaravelJsonApi\Serializers\Serializer
      * @param Model|Post $model
      * @return array
      */
-    public function getLinks($model): array
+    public function getLinks($model) : array
     {
         return [
             'comments' => 'https://localhost/api/v1/posts/1/comments',
@@ -136,6 +136,49 @@ class PostSerializer extends \Ipunkt\LaravelJsonApi\Serializers\Serializer
             'excerpt' => substr($model->content, 0, 200),
             'words' => count(explode(' ', $model->content)), //  example to show you can return more than only concrete model attributes
         ];
+    }
+}
+```
+
+### Example Repository
+
+Follows the repository pattern and stores default sort criteria and a mapping for parameter request to database field name.
+
+```php
+class PostRepository extends \Ipunkt\LaravelJsonApi\Repositories\Repository
+{
+	/**
+     * default sort criteria, when nothing given (can be empty)
+     *
+     * Format: 'fieldName' => 'asc', // or 'desc'
+     *
+     * @var array
+     */
+    protected $defaultSortCriterias = [
+        'publish_datetime' => 'desc'
+    ];
+
+    /**
+     * sort criterias (can be empty)
+     *
+     * Format: 'attributeNameInRequest' => 'field_name_in_database'
+     * Example: 'date' in request will be 'publish_datetime' in sql query
+     *
+     * @var array
+     */
+    protected $sortCriterias = [
+        'date' => 'publish_datetime',
+    ];
+
+    /**
+     * constructor.
+     * @param Model|Post $post
+     * @param \Ipunkt\LaravelJsonApi\Repositories\Conditions\ConditionApplier $conditionApplier
+     */
+    public function __construct(Post $post, \Ipunkt\LaravelJsonApi\Repositories\Conditions\ConditionApplier $conditionApplier)
+    {
+        $this->model = $post;
+        $this->conditionApplier = $conditionApplier;
     }
 }
 ```

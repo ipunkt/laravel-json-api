@@ -29,8 +29,5 @@
             "email": "rok@ipunkt.biz"
         }
     ],
-    "minimum-stability": "stable",
-	"suggests": {
-		"tymon/jwt-auth": "JSON Web Token Authentication for Laravel"
-	}
+    "minimum-stability": "stable"
 }

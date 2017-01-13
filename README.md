@@ -96,3 +96,46 @@ For each version you can define resources (URL `/public/v1/posts`) and as a call
 Additionally you can define a custom request handler. There you can process the whole request yourself until returning the response. So you have full control.
 
 The Json Api Standard has various filter options. We have a Filter Factory to support this kind of layer. A Filter Factory handles the given filter and sets it to the repository by default. So you can filter by attribute or search within a time period through request parameters. If you want to use filter you have to define a filter factory. Otherwise your filters will not be applied.
+
+### Example Serializer
+
+```php
+class PostSerializer extends \Ipunkt\LaravelJsonApi\Serializers\Serializer
+{
+	/**
+	 * resource type in response, can differ from requesting resource name
+	 * @var string
+	 */
+	protected $type = 'posts';
+
+	/**
+     * returns links
+     *
+     * @param Model|Post $model
+     * @return array
+     */
+    public function getLinks($model): array
+    {
+        return [
+            'comments' => 'https://localhost/api/v1/posts/1/comments',
+        ];
+    }
+
+    /**
+     * returns attributes for model
+     *
+     * @param Model|Post $model
+     * @return array
+     */
+    protected function attributes($model) : array
+    {
+        return [
+            'title' => $model->title,
+            'slug' => str_slug($model->title),
+            'content' => $model->content,
+            'excerpt' => substr($model->content, 0, 200),
+            'words' => count(explode(' ', $model->content)), //  example to show you can return more than only concrete model attributes
+        ];
+    }
+}
+```

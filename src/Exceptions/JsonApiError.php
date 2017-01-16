@@ -2,6 +2,7 @@
 
 namespace Ipunkt\LaravelJsonApi\Exceptions;
 
+use Illuminate\Support\Collection;
 use Ipunkt\LaravelJsonApi\Contracts\Exceptions\ExtendedLoggingInformation;
 
 /**
@@ -122,6 +123,16 @@ class JsonApiError implements \JsonSerializable
     {
         $this->status = $status;
         return $this;
+    }
+
+    /**
+     * returns status code
+     *
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        return $this->status;
     }
 
     /**
@@ -246,9 +257,9 @@ class JsonApiError implements \JsonSerializable
         if (!empty($this->exception)) {
             $e = $this->exception;
             if ($e instanceof ExtendedLoggingInformation) {
-                $result['exception-details-only-on-local-environment'] = $e->context();
+                $result['exception'] = $e->context();
             } else {
-                $result['exception-details-only-on-local-environment'] = [
+                $result['exception'] = [
                     'exception' => get_class($e),
                     'message' => $e->getMessage(),
                     'stacktrace' => $e->getTrace(),

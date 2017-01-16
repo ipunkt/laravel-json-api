@@ -19,7 +19,7 @@ class GetUserFromToken extends \Tymon\JWTAuth\Middleware\GetUserFromToken
     {
         $response = $this->events->fire($event, $payload, true);
 
-        $jsonApiError = new JsonApiError($error);
+        $jsonApiError = new JsonApiError(str_replace('_', ' ', $error));
 
         return $response ?: $this->response->json(['errors' => [$jsonApiError]], $status);
     }

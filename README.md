@@ -67,6 +67,12 @@ By default the package configures all routes itself. This is the suggested optio
 
 You can configure the json api responses as well. There are optional response elements in the json api 1.0 standard. By default we return them all, but you can turn them off if you want to save response bytes.
 
+### defaults section
+
+#### max-limits
+
+How many results should be returned by default (no `page[limit]` query parameter set). We have `50` by default.
+
 ### routes section
 
 #### configure

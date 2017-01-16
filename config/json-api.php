@@ -2,6 +2,16 @@
 
 return [
     /**
+     * Default Values
+     */
+    'defaults' => [
+        /**
+         * Maximum limit of index responses
+         */
+        'max-limit' => 50,
+    ],
+
+    /**
      * Route Options
      */
     'routes' => [

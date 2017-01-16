@@ -653,7 +653,7 @@ class JsonApiController extends Controller
      */
     private function getLimit(Parameters $parameters, int $maxLimit = null) : int
     {
-        $maxLimit = $maxLimit ?? config('api.defaults.max-limit');
+        $maxLimit = $maxLimit ?? config('json-api.defaults.max-limit', 50);
         $limit = $parameters->getLimit($maxLimit);
 
         return $limit ?? $maxLimit;

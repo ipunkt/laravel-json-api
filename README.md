@@ -214,6 +214,67 @@ If you need more freedom then create a request handler yourself and inherit from
 
 You can simplify the data modification requests by using one of the delivered traits within your own request handler. The traits can be found under `Ipunkt\LaravelJsonApi\Http\RequestHandlers\Traits`. Take a look yourself.
 
+## Error Handling in Laravel
+
+Simply extend your `app/Exceptions/Handler.php` in the following way:
+
+Method `render()` should extend with this code:
+
+```php
+if ($request->expectsJson() ||
+	$request->accepts(\Ipunkt\LaravelJsonApi\Contracts\RequestHandlers\ApiRequestHandler::CONTENT_TYPE)) {
+	$error = new JsonApiError($exception->getMessage());
+
+	if ($exception->getCode() > 100) {
+		$error->setCode($exception->getCode());
+	}
+
+	if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+		$error->setStatusCode(404)
+			->setTitle('Resource not found');
+	}
+
+	if ($exception instanceof AuthorizationException) {
+		$error->setStatusCode(403)
+			->setTitle('Access forbidden');
+	}
+
+	if ($exception instanceof ValidationException) {
+		$validationErrors = collect();
+		foreach ($exception->validator->errors()->keys() as $key) {
+			$validationErrors->push([
+				'pointer' => $key,
+				'message' => str_replace('attributes.', '', $exception->validator->errors()->first($key)),
+			]);
+		}
+		$error->setSource($validationErrors);
+	}
+
+	if ($exception instanceof HttpExceptionInterface) {
+		$error->setStatusCode($exception->getStatusCode());
+	}
+
+	if (app()->environment('local')) {
+		$error->setException($exception);
+	}
+
+	return response()->json(['errors' => [$error]], $error->getStatusCode());
+}
+```
+Extend your special exceptions to match the correct code and status code. Code means the Exception code and status code is the http status response code.
+
+Method `unauthenticated()` should extend with this code:
+
+```php
+if ($request->expectsJson() ||
+	$request->accepts(\Ipunkt\LaravelJsonApi\Contracts\RequestHandlers\ApiRequestHandler::CONTENT_TYPE)) {
+	$error = new JsonApiError('Unauthenticated');
+	$error->setStatusCode(401);
+
+	return response()->json(['errors' => [$error]], $error->getStatusCode());
+}
+```
+
 ## Test
 
 We provide a trait for adding functionality for json api testing in the `tests/TestCase.php`: `\Ipunkt\LaravelJsonApi\Testing\ApiTestCaseTrait`.

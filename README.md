@@ -31,6 +31,37 @@ Set the necessary middleware in `app/Http/Kernel.php`:
 
 Please follow the installation instructions documented [here](https://github.com/tymondesigns/jwt-auth/wiki/Installation) for the `tymon/auth` package.
 
+### Middleware
+
+We provide several middlewares `\Ipunkt\LaravelJsonApi\Http\Middleware\ContentTypeGuard` and `\Ipunkt\LaravelJsonApi\Http\Middleware\ETagMiddleware`. First checks that `content-type` and `accept` header will have the correct value and exists. The latter one handles providing the correct `ETag` response header to support your cache infrastructure.
+
+Please add them to your `app/Http/Kernel.php` in the `$routeMiddleware` section like this:
+```php
+'api-content-type' => \Ipunkt\LaravelJsonApi\Http\Middleware\ContentTypeGuard::class,
+'etag' => \Ipunkt\LaravelJsonApi\Http\Middleware\ETagMiddleware::class,
+```
+
+For the api routes we need middleware groups named `api` and `secure-api`. These can be configured like this:
+
+```php
+/**
+ * The application's route middleware groups.
+ *
+ * @var array
+ */
+protected $middlewareGroups = [
+	'api' => [
+		'api-content-type',
+		'etag',
+	],
+
+	'secure-api' => [
+		'api-content-type',
+		'etag',
+	],
+];
+```
+
 ## Configuration
 
 By default the package configures all routes itself. This is the suggested option.

@@ -23,6 +23,15 @@ Publish Configuration (optional step, but suggested):
 php artisan vendor:publish --provider="Ipunkt\LaravelJsonApi\LaravelJsonApiServiceProvider"
 ```
 
+### Facades
+
+Add the following Facades to your `config/app.php` file:
+
+```php
+'RelationshipFilterParser' => \Ipunkt\LaravelJsonApi\Services\RelationshipFilterParser\RelationshipFilterParserFacade::class,
+'FilterApplier' => \Ipunkt\LaravelJsonApi\Services\FilterApplier\FilterApplierFacade::class,
+```
+
 ### Middleware
 
 We provide several middlewares `Ipunkt\LaravelJsonApi\Http\Middleware\ContentTypeGuard` and `Ipunkt\LaravelJsonApi\Http\Middleware\ETagMiddleware` and `Ipunkt\LaravelJsonApi\Http\Middleware\GetUserFromToken`.

@@ -222,7 +222,7 @@ Method `render()` should extend with this code:
 
 ```php
 if ($request->expectsJson() ||
-	$request->accepts(\Ipunkt\LaravelJsonApi\Contracts\RequestHandlers\ApiRequestHandler::CONTENT_TYPE)) {
+	$request->headers->contains('accept', ApiRequestHandler::CONTENT_TYPE)) {
 	$error = new JsonApiError($exception->getMessage());
 
 	if ($exception->getCode() > 100) {
@@ -267,7 +267,7 @@ Method `unauthenticated()` should extend with this code:
 
 ```php
 if ($request->expectsJson() ||
-	$request->accepts(\Ipunkt\LaravelJsonApi\Contracts\RequestHandlers\ApiRequestHandler::CONTENT_TYPE)) {
+	$request->headers->contains('accept', ApiRequestHandler::CONTENT_TYPE)) {
 	$error = new JsonApiError('Unauthenticated');
 	$error->setStatusCode(401);
 

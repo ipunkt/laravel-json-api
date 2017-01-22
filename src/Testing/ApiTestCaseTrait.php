@@ -178,7 +178,7 @@ trait ApiTestCaseTrait
      * assert error response with status code and message context
      *
      * @param int $statusCode
-     * @param array|null $structure
+     * @param array|null $response
      */
     protected function assertErrorResponse(int $statusCode, array $response = null)
     {

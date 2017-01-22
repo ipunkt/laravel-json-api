@@ -178,23 +178,9 @@ trait ApiTestCaseTrait
      * assert error response with status code and message context
      *
      * @param int $statusCode
-     * @param array|null $response
-     */
-    protected function assertErrorResponse(int $statusCode, array $response = null)
-    {
-        $this->assertResponseStatus($statusCode);
-        if ($response !== null) {
-            $this->seeJson($response);
-        }
-    }
-
-    /**
-     * assert error response with status code and message context
-     *
-     * @param int $statusCode
      * @param array|null $structure
      */
-    protected function assertErrorResponseStructure(int $statusCode, array $structure = null)
+    protected function assertErrorResponse(int $statusCode, array $structure = null)
     {
         $this->assertResponseStatus($statusCode);
         $this->seeJsonStructure($structure ?? [

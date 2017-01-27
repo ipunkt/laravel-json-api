@@ -46,6 +46,15 @@ class Repository implements JsonApiRepository
      */
     protected $sortCriterias = [];
 
+	/**
+	 * Will be used by all $query->get() calls:
+	 * `$query->get( $getParameters )`
+	 * Usecase: restrict fields to the model table when using joins: $queryParamaters = ['table.*'];
+	 *
+	 * @var null|array
+	 */
+    protected $getParameters = null;
+
     /**
      * returns a collection of all models
      *
@@ -117,7 +126,7 @@ class Repository implements JsonApiRepository
     public function findAllBy($key, $value, $operator = '=')
     {
         $query = $this->make();
-        return $query->where($key, $operator, $value)->get();
+        return $query->where($key, $operator, $value)->get( $this->getParameters );
     }
 
     /**
@@ -129,7 +138,7 @@ class Repository implements JsonApiRepository
     public function has($relation)
     {
         $query = $this->make();
-        return $query->has($relation)->get();
+        return $query->has($relation)->get( $this->getParameters );
     }
 
     /**
@@ -162,7 +171,7 @@ class Repository implements JsonApiRepository
      */
     function get()
     {
-        return $this->makeQuery()->get();
+        return $this->makeQuery()->get( $this->getParameters );
     }
 
     /**

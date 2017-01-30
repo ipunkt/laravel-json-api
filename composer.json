@@ -12,7 +12,7 @@
         "illuminate/container": "^5.2",
         "illuminate/routing": "^5.2",
         "tobscure/json-api": "^0.3.0",
-        "tymon/jwt-auth": "0.5.9"
+        "tymon/jwt-auth": "^0.5.9"
     },
     "autoload": {
         "psr-4": {

@@ -419,46 +419,47 @@ class JsonApiController extends Controller
 
         return $this->respond($document);
     }
-	/**
-	 * handles relationship item delete request (To-One Relation)
-	 *
-	 * /public/v1/resources/{id}/relationships/{related}
-	 * /secure/v1/resources/{id}/relationships/{related}
-	 *
-	 * @param ResourceManager $resourceManager
-	 * @param ApiRequest $request
-	 * @param int $version
-	 * @param string $resource
-	 * @param string|int $id
-	 * @param string $relationship
-	 * @param string|int $parameter
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function relatedDelete(
-		ResourceManager $resourceManager,
-		ApiRequest $request,
-		int $version,
-		string $resource,
-		$id,
-		string $relationship
-	) {
-		$resourceManager->version($version);
 
-		/** @var HandlesRelationshipDeleteRequest $handler */
-		$handler = $this->initializeHandler($resourceManager, $resource . '.' . $relationship, $request,
-			HandlesRelationshipDeleteRequest::class);
+    /**
+     * handles relationship item delete request (To-One Relation)
+     *
+     * /public/v1/resources/{id}/relationships/{related}
+     * /secure/v1/resources/{id}/relationships/{related}
+     *
+     * @param ResourceManager $resourceManager
+     * @param ApiRequest $request
+     * @param int $version
+     * @param string $resource
+     * @param string|int $id
+     * @param string $relationship
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function relatedDelete(
+        ResourceManager $resourceManager,
+        ApiRequest $request,
+        int $version,
+        string $resource,
+        $id,
+        string $relationship
+    )
+    {
+        $resourceManager->version($version);
 
-		$parameters = $request->asParameters();
+        /** @var HandlesRelationshipDeleteRequest $handler */
+        $handler = $this->initializeHandler($resourceManager, $resource . '.' . $relationship, $request,
+            HandlesRelationshipDeleteRequest::class);
 
-		$resourceRepository = $this->initializeRepository($resourceManager, $resource, $parameters);
-		$model = $resourceRepository->findOrFail($id);
+        $parameters = $request->asParameters();
 
-		$repository = $resourceManager->resolveRepository($resource . '.' . $relationship);
+        $resourceRepository = $this->initializeRepository($resourceManager, $resource, $parameters);
+        $model = $resourceRepository->findOrFail($id);
 
-		$handler->relatedDelete($model, $repository);
+        $repository = $resourceManager->resolveRepository($resource . '.' . $relationship);
 
-		return $this->respondNoContent();
-	}
+        $handler->relatedDelete($model, $repository);
+
+        return $this->respondNoContent();
+    }
 
     /**
      * handles relationship item delete request (To-Many Relation)
@@ -518,61 +519,52 @@ class JsonApiController extends Controller
         Parameters $parameters
     )
     {
+        $relations = collect();
 
-	    $relateds = collect();
-
-	    $availableIncludes = $this->retrieveRelationsRecursive($resource, $relateds, $resourceManager);
+        $availableIncludes = $this->retrieveRelationsRecursive($resource, $relations, $resourceManager);
 
         $resourceOrCollection->with($parameters->getInclude($availableIncludes->all()));
     }
 
-	/**
-	 * @param string $resource
-	 * @param \Illuminate\Support\Collection $relationTree
-	 * @param \Illuminate\Support\Collection $alreadyKnownRelations
-	 * @param ResourceManager $resourceManager
-	 */
-    private function retrieveRelationsRecursive($resource, &$alreadyKnownRelations, ResourceManager $resourceManager) {
+    /**
+     * @param string $resource
+     * @param \Illuminate\Support\Collection $alreadyKnownRelations
+     * @param ResourceManager $resourceManager
+     * @return \Illuminate\Support\Collection
+     */
+    private function retrieveRelationsRecursive($resource, &$alreadyKnownRelations, ResourceManager $resourceManager)
+    {
+        try {
+            $availableIncludes = $resourceManager->definition($resource)->relatedResources();
+        } catch (ResourceNotDefinedException $e) {
+            return collect();
+        }
 
-	    try {
-		    $availableIncludes = $resourceManager->definition($resource)->relatedResources();
-	    } catch(ResourceNotDefinedException $e) {
-		    return collect();
-	    }
+        foreach ($availableIncludes as $include) {
+            try {
+                $relationName = $resource . '.' . $include;
 
-	    foreach($availableIncludes as $include) {
+                $definition = $resourceManager->definition($relationName);
+            } catch (ResourceNotDefinedException $e) {
+                continue;
+            }
 
-		    try {
+            foreach ($definition->types() as $type) {
+                if ($alreadyKnownRelations->has($type)) {
+                    continue;
+                }
 
-			    $relationName = $resource . '.' . $include;
+                $alreadyKnownRelations->put($type, true);
 
-			    $definition = $resourceManager->definition( $relationName );
+                $subIncludes = $this->retrieveRelationsRecursive($type, $alreadyKnownRelations, $resourceManager);
+                foreach ($subIncludes as $subInclude) {
+                    $availableIncludes->push($type . '.' . $subInclude);
+                }
+            }
+        }
 
-		    } catch(ResourceNotDefinedException $e) {
-			    continue;
-		    }
-
-
-		    foreach($definition->types() as $type) {
-
-			    if($alreadyKnownRelations->has($type) )
-				    continue;
-
-			    $alreadyKnownRelations->put($type, true);
-
-			    $subIncludes = $this->retrieveRelationsRecursive($type, $alreadyKnownRelations, $resourceManager);
-			    foreach( $subIncludes as $subInclude )
-			    	$availableIncludes->push( $type.'.'.$subInclude );
-
-		    }
-
-
-	    }
-
-	    return $availableIncludes;
-
+        return $availableIncludes;
     }
-
 
     /**
      * returns initialized handler
@@ -651,7 +643,7 @@ class JsonApiController extends Controller
      * @param int|null $maxLimit
      * @return int
      */
-    private function getLimit(Parameters $parameters, int $maxLimit = null) : int
+    private function getLimit(Parameters $parameters, int $maxLimit = null): int
     {
         $maxLimit = $maxLimit ?? config('json-api.defaults.max-limit', 50);
         $limit = $parameters->getLimit($maxLimit);

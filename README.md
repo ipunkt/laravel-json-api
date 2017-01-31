@@ -325,3 +325,9 @@ if ($request->expectsJson() ||
 We provide a trait for adding functionality for json api testing in the `tests/TestCase.php`: `\Ipunkt\LaravelJsonApi\Testing\ApiTestCaseTrait`.
 
 This TestCase trait is optimized for testing with Laravel 5.3 or Laravel 5.4 BrowserKitTest.
+
+### Laravel 5.4
+
+Since Laravel 5.4 has a lot of convenient methods for requesting and asserting you only need the `Ipunkt\LaravelJsonApi\Testing\Concerns\PreparesRequestBody` trait. Simply add it to your `Tests\TestCase` use statements.
+
+The `PreparesRequestBody` provides model to request body transformation methods.

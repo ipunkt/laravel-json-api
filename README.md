@@ -331,3 +331,5 @@ This TestCase trait is optimized for testing with Laravel 5.3 or Laravel 5.4 Bro
 Since Laravel 5.4 has a lot of convenient methods for requesting and asserting you only need the `Ipunkt\LaravelJsonApi\Testing\Concerns\PreparesRequestBody` trait. Simply add it to your `Tests\TestCase` use statements.
 
 The `PreparesRequestBody` provides model to request body transformation methods.
+
+If you want to provide some kind of login or secure api, then you have to add `Ipunkt\LaravelJsonApi\Testing\Concerns\ModifiesRequestHeaders` to your `Tests\TestCase` or wherever you want to store a token. This trait provides token storing and a `->headers()` method to overwrite the headers with the bearer token.

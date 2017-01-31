@@ -323,3 +323,5 @@ if ($request->expectsJson() ||
 ## Test
 
 We provide a trait for adding functionality for json api testing in the `tests/TestCase.php`: `\Ipunkt\LaravelJsonApi\Testing\ApiTestCaseTrait`.
+
+This TestCase trait is optimized for testing with Laravel 5.3 or Laravel 5.4 BrowserKitTest.

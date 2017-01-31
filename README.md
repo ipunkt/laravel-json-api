@@ -333,3 +333,48 @@ Since Laravel 5.4 has a lot of convenient methods for requesting and asserting y
 The `PreparesRequestBody` provides model to request body transformation methods.
 
 If you want to provide some kind of login or secure api, then you have to add `Ipunkt\LaravelJsonApi\Testing\Concerns\ModifiesRequestHeaders` to your `Tests\TestCase` or wherever you want to store a token. This trait provides token storing and a `->headers()` method to overwrite the headers with the bearer token.
+
+#### Example User Login
+
+If you want to create a user login to test a secure api route you can do it like this:
+```php
+namespace Tests;
+
+use App\User;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Ipunkt\LaravelJsonApi\Testing\Concerns\ModifiesRequestHeaders;
+use Ipunkt\LaravelJsonApi\Testing\Concerns\PreparesRequestBody;
+
+abstract class TestCase extends BaseTestCase
+{
+	use PreparesRequestBody,
+		ModifiesRequestHeaders;
+	use CreatesApplication;
+
+	/**
+	 * creates a user and logs him in
+	 *
+	 * @return User
+	 */
+	protected function createUserAndLogin(): User
+	{
+		$user = factory(\App\User::class)->create();
+
+		$response = $this->postJson('/public/v1/tokens', $this->createRequestModel('credentials', [
+			'email' => $user->email,
+			'password' => 'secret',
+		]), $this->headers());
+
+		$json = $response->decodeResponseJson();
+		$token = array_get($json, 'data.id');
+
+		$this->setToken($token); // you are loggedin
+
+		// you can now overwrite all requests headers with calling $this->headers().
+
+		return $user;
+	}
+}
+```
+
+This code creates a new user within the database, fetches a token (stored in response `data.id`) and sets it to a static variable. Afterwards you can use the `$this->headers()` method for every request to overwrite the necessary headers.

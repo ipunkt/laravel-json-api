@@ -11,12 +11,11 @@ class RelationshipFilterParser
      *
      * @param string $resource
      * @param string $relationshipResource
-     * @param array $filters
+     * @param array|null $filters
      * @return array
      */
-    public function filtersForRelationship(string $resource, string $relationshipResource, array $filters)
+    public function filtersForRelationship(string $resource, string $relationshipResource, array $filters = null)
     {
-
         if (!is_array($filters)) {
             return [];
         }

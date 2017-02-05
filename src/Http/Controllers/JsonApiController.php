@@ -456,7 +456,7 @@ class JsonApiController extends Controller
 
         $repository = $resourceManager->resolveRepository($resource . '.' . $relationship);
 
-        $handler->relatedDelete($model, $repository);
+        $handler->relatedDelete($request, $model, $repository);
 
         return $this->respondNoContent();
     }

@@ -11,7 +11,6 @@ interface HandlesRelationshipDeleteRequest extends ApiRequestHandler
      * relationship item request
      *
      * @param Model|mixed $resourceModel
-     * @param string|int $relatedId
      * @param RelatedRepository $repository
      * @return void
      */

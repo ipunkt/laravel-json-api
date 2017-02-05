@@ -4,6 +4,7 @@ namespace Ipunkt\LaravelJsonApi\Contracts\RequestHandlers;
 
 use Illuminate\Database\Eloquent\Model;
 use Ipunkt\LaravelJsonApi\Contracts\RelatedRepository;
+use Ipunkt\LaravelJsonApi\Http\Requests\ApiRequest;
 
 interface HandlesRelationshipDeleteRequest extends ApiRequestHandler
 {

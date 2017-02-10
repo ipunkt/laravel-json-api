@@ -5,6 +5,7 @@ namespace Ipunkt\LaravelJsonApi\FilterFactories;
 use Illuminate\Contracts\Foundation\Application;
 use Ipunkt\LaravelJsonApi\Contracts\FilterFactories\FilterFactory;
 use Ipunkt\LaravelJsonApi\Contracts\Repositories\Conditions\RepositoryCondition;
+use Ipunkt\LaravelJsonApi\Contracts\Repositories\Conditions\TakesParameter;
 use Ipunkt\LaravelJsonApi\Repositories\Conditions\IdIsCondition;
 
 class ArrayFilterFactory implements FilterFactory
@@ -59,7 +60,7 @@ class ArrayFilterFactory implements FilterFactory
 
         if (!$this->hasFilter($name)) {
             $condition = $this->application->make($this->defaultFilter);
-            if ($condition instanceof RepositoryCondition) {
+            if ($condition instanceof TakesParameter) {
                 $condition->setParameter($name, $value);
             }
             return $condition;
@@ -67,7 +68,7 @@ class ArrayFilterFactory implements FilterFactory
 
         $classPath = $this->getFilter($name);
         $condition = $this->application->make($classPath);
-        if ($condition instanceof RepositoryCondition) {
+        if ($condition instanceof TakesParameter) {
             $condition->setParameter($name, $value);
         }
         return $condition;

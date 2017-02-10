@@ -53,6 +53,23 @@ class WithinTimePeriodCondition implements RepositoryCondition
     }
 
     /**
+     * sets parameter
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return RepositoryCondition
+     */
+    function setParameter($name, $value)
+    {
+        $this->fromFieldName = $name;
+        $this->untilFieldName = $name;
+
+        $this->fromFieldValue = $this->untilFieldValue = $value;
+
+        return $this;
+    }
+
+    /**
      * apply a builder
      *
      * @param \Ipunkt\LaravelJsonApi\Contracts\Repositories\Conditions\TakesConditions $builder

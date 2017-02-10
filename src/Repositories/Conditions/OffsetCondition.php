@@ -8,7 +8,7 @@ use Ipunkt\LaravelJsonApi\Contracts\Repositories\Conditions\TakesConditions;
 class OffsetCondition implements RepositoryCondition
 {
     /**
-     * @var string
+     * @var int
      */
     private $offset;
 
@@ -19,6 +19,20 @@ class OffsetCondition implements RepositoryCondition
     public function __construct($offset)
     {
         $this->offset = $offset;
+    }
+
+    /**
+     * sets parameter
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return RepositoryCondition
+     */
+    function setParameter($name, $value)
+    {
+        $this->offset = $value;
+
+        return $this;
     }
 
     /**

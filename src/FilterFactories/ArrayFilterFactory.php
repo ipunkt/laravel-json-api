@@ -15,7 +15,7 @@ class ArrayFilterFactory implements FilterFactory
      * @var string[]
      */
     protected $filters = [
-	    'id' => IdIsCondition::class,
+        'id' => IdIsCondition::class,
     ];
 
     /**
@@ -53,28 +53,31 @@ class ArrayFilterFactory implements FilterFactory
      */
     public function make($name, $value)
     {
-        $parameters = func_get_args();
-
         if (!$this->hasFilter($name) && $this->defaultFilter === null) {
             throw FilterFactoryNotFoundException::forFilter($name);
         }
 
         if (!$this->hasFilter($name)) {
-            return $this->application->make($this->defaultFilter, $parameters);
+            $condition = $this->application->make($this->defaultFilter);
+            if ($condition instanceof RepositoryCondition) {
+                $condition->setParameter($name, $value);
+            }
+            return $condition;
         }
 
-        // remove name from parameters
-        array_shift($parameters);
-
         $classPath = $this->getFilter($name);
-        return $this->application->make($classPath, $parameters);
+        $condition = $this->application->make($classPath);
+        if ($condition instanceof RepositoryCondition) {
+            $condition->setParameter($name, $value);
+        }
+        return $condition;
     }
 
     /**
-     * Gibt alle bekannten Filter zurück.
-     * Format: 'filtername' => 'Klassenfpad'
+     * returns all known filter with their corresponding class
+     * Format: 'filtername' => 'Classpath'
      *
-     * @return string[]
+     * @return array|string[]
      */
     public function allAvailable()
     {
@@ -86,7 +89,8 @@ class ArrayFilterFactory implements FilterFactory
      *
      * @return null|string
      */
-    public function getDefaultFilter() {
+    public function getDefaultFilter()
+    {
         return $this->defaultFilter;
     }
 

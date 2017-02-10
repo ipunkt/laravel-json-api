@@ -7,8 +7,8 @@ use Ipunkt\LaravelJsonApi\FilterFactories\FilterFactoryNotFoundException;
 interface FilterFactory
 {
     /**
-     * Gibt alle bekannten Filter zurück.
-     * Format: 'filtername' => 'Klassenfpad'
+     * returns all known filter with their corresponding class
+     * Format: 'filtername' => 'Classpath'
      *
      * @return array|string[]
      */

@@ -7,37 +7,44 @@ use Ipunkt\LaravelJsonApi\Contracts\Repositories\Conditions\TakesConditions;
 
 class IdIsCondition implements RepositoryCondition
 {
-
-	protected $allowedIds = [];
+    protected $allowedIds = [];
 
     /**
-     * IdIsCondition constructor.
-     * @param string $id
+     * sets parameter
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return RepositoryCondition
      */
-    public function __construct(string $id) {
-	    $ids = explode(',', $id);
+    function setParameter($name, $value)
+    {
+        $ids = explode(',', $value);
 
-	    //
-	    if( count($ids) < 2 )
-	    	$ids = $id;
+        //
+        if (count($ids) < 2) {
+            $ids = $id;
+        }
 
-	    $this->allowedIds = $ids;
+        $this->allowedIds = $ids;
+
+        return $this;
     }
 
-	/**
-	 * apply a builder
-	 *
-	 * @param TakesConditions $builder
-	 */
-	public function apply(TakesConditions $builder) {
-		$allowedIDs = $this->allowedIds;
+    /**
+     * apply a builder
+     *
+     * @param TakesConditions $builder
+     */
+    public function apply(TakesConditions $builder)
+    {
+        $allowedIDs = $this->allowedIds;
 
-		if( !is_array($allowedIDs) ) {
-			$builder->where('id', $allowedIDs);
+        if (!is_array($allowedIDs)) {
+            $builder->where('id', $allowedIDs);
 
-			return;
-		}
+            return;
+        }
 
-		$builder->whereIn('id', $allowedIDs);
-	}
+        $builder->whereIn('id', $allowedIDs);
+    }
 }

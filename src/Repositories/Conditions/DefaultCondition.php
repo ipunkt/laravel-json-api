@@ -22,14 +22,18 @@ class DefaultCondition implements RepositoryCondition
     private $value;
 
     /**
-     * DefaultCondition constructor.
+     * sets parameter
+     *
      * @param string $name
      * @param mixed $value
+     * @return RepositoryCondition
      */
-    public function __construct(string $name, $value)
+    function setParameter($name, $value)
     {
         $this->name = $name;
         $this->value = $value;
+
+        return $this;
     }
 
     /**

@@ -28,6 +28,20 @@ class SortByCondition implements RepositoryCondition
     }
 
     /**
+     * sets parameter
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return RepositoryCondition
+     */
+    function setParameter($name, $value)
+    {
+        $this->field = $name;
+        $this->descending = boolval($value);
+        return $this;
+    }
+
+    /**
      * apply a builder
      *
      * @param TakesConditions $builder

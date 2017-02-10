@@ -18,7 +18,7 @@ class LimitCondition implements RepositoryCondition
      * @param int $limit
      * @param int $defaultLimit
      */
-    public function __construct($limit, $defaultLimit = 50)
+    public function __construct($limit = null, $defaultLimit = 50)
     {
         $this->limit = $limit ?? $defaultLimit;
     }
@@ -42,6 +42,20 @@ class LimitCondition implements RepositoryCondition
     public function setLimit(int $limit): self
     {
         $this->limit = $limit;
+
+        return $this;
+    }
+
+    /**
+     * sets parameter
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return RepositoryCondition
+     */
+    function setParameter($name, $value)
+    {
+        $this->limit = empty($value) ? $this->limit : intval($value);
 
         return $this;
     }

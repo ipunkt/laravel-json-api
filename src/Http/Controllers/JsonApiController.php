@@ -48,12 +48,21 @@ class JsonApiController extends Controller
     {
         $resource = $request->route('resource');
         $version = $request->route('version');
+        $relationship = $request->route('relationship');
 
         if ($resource !== null && $version !== null) {
             try {
                 $definition = $resourceManager->definition($resource, $version);
-                if ($definition->hasMiddleware()) {
+                if ($definition instanceof ResourceDefinition
+                    && $definition->hasMiddleware()) {
                     $this->middleware($definition->middleware->all());
+                }
+                if ($relationship !== null) {
+                    $definition = $resourceManager->definition($resource . '.' . $relationship);
+                    if ($definition instanceof ResourceDefinition
+                        && $definition->hasMiddleware()) {
+                        $this->middleware($definition->middleware->all());
+                    }
                 }
             } catch (ResourceNotDefinedException $e) {
             }
@@ -456,7 +465,7 @@ class JsonApiController extends Controller
 
         $repository = $resourceManager->resolveRepository($resource . '.' . $relationship);
 
-        $handler->relatedDelete($model, $repository);
+        $handler->relatedDelete($request, $model, $repository);
 
         return $this->respondNoContent();
     }

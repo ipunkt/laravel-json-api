@@ -27,6 +27,7 @@ use Ipunkt\LaravelJsonApi\Http\Requests\ApiRequest;
 use Ipunkt\LaravelJsonApi\Repositories\Conditions\LimitCondition;
 use Ipunkt\LaravelJsonApi\Repositories\Conditions\OffsetCondition;
 use Ipunkt\LaravelJsonApi\Repositories\Conditions\SortByCondition;
+use Ipunkt\LaravelJsonApi\Resources\ResourceDefinition;
 use Ipunkt\LaravelJsonApi\Resources\ResourceManager;
 use Ipunkt\LaravelJsonApi\Resources\ResourceNotDefinedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;

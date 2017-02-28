@@ -46,6 +46,12 @@ interface TakesConditions
     function whereNotNull($field);
 
     /**
+     * @param string $field
+     * @return $this
+     */
+    function whereNull($field);
+
+    /**
      * @param string|\Closure $fieldOrClosure
      * @param string|mixed $operatorOrValue
      * @param mixed $value

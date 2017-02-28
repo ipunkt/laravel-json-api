@@ -92,6 +92,16 @@ class ConditionTaker implements TakesConditions
     }
 
     /**
+     * @param string $field
+     * @return $this
+     */
+    function whereNull($field)
+    {
+        $this->builder = $this->builder->whereNull($field);
+        return $this;
+    }
+
+    /**
      * @param string|\Closure $fieldOrClosure
      * @param string|mixed $operatorOrValue
      * @param mixed $value

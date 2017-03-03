@@ -14,4 +14,13 @@ interface OneToManyRelationRepository extends RelatedRepository
      * @return Model[]|Collection|mixed
      */
     public function getMany($model);
+
+    /**
+     * returns item request
+     *
+     * @param Model|mixed $model
+     * @param string|int $id
+     * @return Model|mixed
+     */
+    public function findRelated($model, $id);
 }

@@ -4,7 +4,7 @@ namespace Ipunkt\LaravelJsonApi\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface OneToOneRelationRepository
+interface OneToOneRelationRepository extends RelatedRepository
 {
     /**
      * returns collection request

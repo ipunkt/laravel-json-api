@@ -55,6 +55,24 @@ trait ValidatesRequests
     }
 
     /**
+     * Validate the given request data with the given rules.
+     *
+     * @param  array $data
+     * @param  array $rules
+     * @param  array $messages
+     * @param  array $customAttributes
+     * @return void
+     */
+    public function validateData(array $data, array $rules, array $messages = [], array $customAttributes = [])
+    {
+        $validator = $this->getValidationFactory()->make($data, $rules, $messages, $customAttributes);
+
+        if ($validator->fails()) {
+            $this->throwValidationException(request(), $validator);
+        }
+    }
+    
+    /**
      * Validate the given request with the given rules.
      *
      * @param  string $errorBag

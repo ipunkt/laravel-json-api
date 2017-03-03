@@ -39,13 +39,13 @@ class ConditionApplier
     /**
      * returns condition by type
      *
-     * @param string $respositoryType
+     * @param string $repositoryType
      * @return Collection
      */
-    public function getConditionByType(string $respositoryType) : Collection
+    public function getConditionByType(string $repositoryType) : Collection
     {
-        return $this->conditions->filter(function (RepositoryCondition $condition) use ($respositoryType) {
-            return $condition instanceof $respositoryType;
+        return $this->conditions->filter(function (RepositoryCondition $condition) use ($repositoryType) {
+            return $condition instanceof $repositoryType;
         });
     }
 

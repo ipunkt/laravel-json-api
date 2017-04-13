@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Ipunkt\LaravelJsonApi\Contracts\Repositories\Conditions\RepositoryCondition;
 use Ipunkt\LaravelJsonApi\Contracts\Repositories\JsonApiRepository;
-use Ipunkt\LaravelJsonApi\Repositories\Conditions\ConditionApplier;
 use Ipunkt\LaravelJsonApi\Repositories\Conditions\ConditionTaker;
 
 class Repository implements JsonApiRepository

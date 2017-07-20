@@ -20,13 +20,13 @@ interface ApiRequestHandler
      * @param string[] $filters
      * @return ApiRequestHandler
      */
-    function setFilters($filters);
+    public function setFilters($filters);
 
     /**
      * @param FilterFactory $filterFactory
      * @return ApiRequestHandler
      */
-    function setFilterFactory(FilterFactory $filterFactory);
+    public function setFilterFactory(FilterFactory $filterFactory);
 
     /**
      * set request
@@ -34,5 +34,5 @@ interface ApiRequestHandler
      * @param ApiRequest $request
      * @return ApiRequestHandler
      */
-    function setRequest(ApiRequest $request);
+    public function setRequest(ApiRequest $request);
 }

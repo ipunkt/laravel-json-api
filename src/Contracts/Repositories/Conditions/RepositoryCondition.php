@@ -9,5 +9,5 @@ interface RepositoryCondition extends TakesParameter
      *
      * @param TakesConditions $builder
      */
-    function apply(TakesConditions $builder);
+    public function apply(TakesConditions $builder);
 }

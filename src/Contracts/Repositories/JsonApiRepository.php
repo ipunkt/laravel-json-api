@@ -14,7 +14,7 @@ interface JsonApiRepository extends ConditionAwareRepository
      * @param int $id
      * @return Model|\Serializable
      */
-    function find($id);
+    public function find($id);
 
     /**
      * finds a model by id, fails with ModelNotFoundException when not found
@@ -22,21 +22,21 @@ interface JsonApiRepository extends ConditionAwareRepository
      * @param int|string $id
      * @return Model|\Serializable
      */
-    function findOrFail($id);
+    public function findOrFail($id);
 
     /**
      * returns a collection
      *
      * @return Model[]|\Serializable[]|Collection|array
      */
-    function get();
+    public function get();
 
     /**
      * Returns the total count of objects
      *
      * @return int
      */
-    function count();
+    public function count();
 
     /**
      * Prevents the next request from clearing the conditions. Meant to use with count
@@ -44,7 +44,7 @@ interface JsonApiRepository extends ConditionAwareRepository
      * @param bool $peek defaults to true if not given
      * @return void
      */
-    function setPeek($peek = true);
+    public function setPeek($peek = true);
 
     /**
      * Map of available sort criterias
@@ -52,7 +52,7 @@ interface JsonApiRepository extends ConditionAwareRepository
      *
      * @return array
      */
-    function sortCriterias();
+    public function sortCriterias();
 
     /**
      * default sort criteria, when nothing given
@@ -61,10 +61,10 @@ interface JsonApiRepository extends ConditionAwareRepository
      *
      * @return array
      */
-    function defaultSortCriterias();
+    public function defaultSortCriterias();
 
-	/**
-	 * @param array ...$relation
-	 */
-	function eagerLoad(...$relation);
+    /**
+     * @param array ...$relation
+     */
+    public function eagerLoad(...$relation);
 }

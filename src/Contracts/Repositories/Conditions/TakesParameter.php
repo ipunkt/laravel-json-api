@@ -11,5 +11,5 @@ interface TakesParameter
      * @param mixed $value
      * @return RepositoryCondition
      */
-    function setParameter($name, $value);
+    public function setParameter($name, $value);
 }

@@ -12,7 +12,7 @@ interface FilterFactory
      *
      * @return array|string[]
      */
-    function allAvailable();
+    public function allAvailable();
 
     /**
      * @param string $name
@@ -20,12 +20,12 @@ interface FilterFactory
      * @return \Ipunkt\LaravelJsonApi\Contracts\Repositories\Conditions\RepositoryCondition
      * @throws FilterFactoryNotFoundException when no filter found
      */
-    function make($name, $value);
+    public function make($name, $value);
 
     /**
      * returns default filter
      *
      * @return null|string
      */
-    function getDefaultFilter();
+    public function getDefaultFilter();
 }

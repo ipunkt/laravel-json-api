@@ -10,46 +10,46 @@ interface TakesConditions
      * @param mixed $value
      * @return $this
      */
-    function where($fieldOrClosure, $operatorOrValue = null, $value = null);
+    public function where($fieldOrClosure, $operatorOrValue = null, $value = null);
 
     /**
      * @param string $field
      * @param array $possibleValues
      * @return $this
      */
-    function whereIn($field, $possibleValues);
+    public function whereIn($field, $possibleValues);
 
     /**
      * @param string $string
      * @param mixed $param
      * @return $this
      */
-    function whereHas($string, $param);
+    public function whereHas($string, $param);
 
     /**
      * @param string $field
      * @param bool $descending defaults to false
      * @return $this
      */
-    function orderBy($field, $descending = false);
+    public function orderBy($field, $descending = false);
 
     /**
      * @param int $limit
      * @return $this
      */
-    function limit($limit);
+    public function limit($limit);
 
     /**
      * @param string $field
      * @return $this
      */
-    function whereNotNull($field);
+    public function whereNotNull($field);
 
     /**
      * @param string $field
      * @return $this
      */
-    function whereNull($field);
+    public function whereNull($field);
 
     /**
      * @param string|\Closure $fieldOrClosure
@@ -57,26 +57,26 @@ interface TakesConditions
      * @param mixed $value
      * @return $this
      */
-    function orWhere($fieldOrClosure, $operatorOrValue = null, $value = null);
+    public function orWhere($fieldOrClosure, $operatorOrValue = null, $value = null);
 
     /**
      * @param mixed $query
      * @return $this
      */
-    function select($query);
+    public function select($query);
 
     /**
      * @param string $field
      * @param float $value
      * @return $this
      */
-    function boost($field, $value);
+    public function boost($field, $value);
 
     /**
      * @param int $offset
      * @return $this
      */
-    function offset($offset);
+    public function offset($offset);
 
     /**
      * @param string $name
@@ -85,7 +85,7 @@ interface TakesConditions
      * @param null $limit
      * @return $this
      */
-    function addFacet($name, $field, $min = null, $limit = null);
+    public function addFacet($name, $field, $min = null, $limit = null);
 
     /**
      * @param string $name
@@ -95,9 +95,9 @@ interface TakesConditions
      * @param mixed $end
      * @return $this
      */
-    function addFacetRange($name, $field, $start, $gap, $end);
+    public function addFacetRange($name, $field, $start, $gap, $end);
 
-	/**
+    /**
 	 * Also search for related items with the next query
 	 *
 	 * @param $fields
@@ -106,7 +106,7 @@ interface TakesConditions
 	 * @param int $count
 	 * @return $this
 	 */
-	function addMoreLikeThis($fields, $minimumDocFrequency = null, $minimumTermFrequency = null, $count = null);
+	public function addMoreLikeThis($fields, $minimumDocFrequency = null, $minimumTermFrequency = null, $count = null);
 
 	/**
 	 * @param $table
@@ -115,5 +115,5 @@ interface TakesConditions
 	 * @param $field2
 	 * @return mixed
 	 */
-	function join($table, $field1, $condition, $field2);
+	public function join($table, $field1, $condition, $field2);
 }

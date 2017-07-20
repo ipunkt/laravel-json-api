@@ -10,5 +10,5 @@ interface ConditionAwareRepository
      * @param RepositoryCondition $constraint
      * @return void
      */
-    function applyCondition(RepositoryCondition $constraint);
+    public function applyCondition(RepositoryCondition $constraint);
 }

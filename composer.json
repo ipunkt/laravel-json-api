@@ -31,5 +31,16 @@
     ],
     "require-dev": {
         "phpunit/phpunit": "^5.0"
-    }
+    },
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Ipunkt\\LaravelJsonApi\\LaravelJsonApiServiceProvider"
+			],
+			"aliases": {
+				"RelationshipFilterParser": "Ipunkt\\LaravelJsonApi\\Services\\RelationshipFilterParser\\RelationshipFilterParserFacade",
+				"FilterApplier": "Ipunkt\\LaravelJsonApi\\Services\\FilterApplier\\FilterApplierFacade"
+			}
+		}
+	}
 }

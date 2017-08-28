@@ -8,8 +8,10 @@ JSON Api Package for Laravel
 ## Installation
 
 ```shell
-composer require ipunkt/laravel-json-api:dev-master
+composer require ipunkt/laravel-json-api
 ```
+
+The package supports the package auto-discovery feature since laravel 5.5. For older laravel versions follow the instructions:
 
 Add service provider to `config/app.php`:
 ```php
@@ -17,13 +19,6 @@ Add service provider to `config/app.php`:
 	\Ipunkt\LaravelJsonApi\LaravelJsonApiServiceProvider::class,
 ]
 ```
-
-Publish Configuration (optional step, but suggested):
-```shell
-php artisan vendor:publish --provider="Ipunkt\LaravelJsonApi\LaravelJsonApiServiceProvider"
-```
-
-### Facades
 
 Add the following Facades to your `config/app.php` file:
 
@@ -75,6 +70,11 @@ protected $middlewareGroups = [
 By default the package configures all routes itself. This is the suggested option.
 
 You can configure the json api responses as well. There are optional response elements in the json api 1.0 standard. By default we return them all, but you can turn them off if you want to save response bytes.
+
+Publish Configuration (optional step, but suggested):
+```shell
+php artisan vendor:publish --provider="Ipunkt\LaravelJsonApi\LaravelJsonApiServiceProvider"
+```
 
 ### defaults section
 

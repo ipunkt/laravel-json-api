@@ -12,6 +12,7 @@ trait MakesApiRequests
      * @param string $uri
      * @param array $requestModel
      * @param array $headers
+     * @return \Illuminate\Foundation\Testing\TestResponse
      */
     protected function api(string $uri, array $requestModel = [], array $headers = [])
     {
@@ -24,6 +25,7 @@ trait MakesApiRequests
      * @param string $uri
      * @param array $requestModel
      * @param array $headers
+     * @return \Illuminate\Foundation\Testing\TestResponse
      */
     protected function apiPost(string $uri, array $requestModel = [], array $headers = [])
     {
@@ -36,6 +38,7 @@ trait MakesApiRequests
      * @param string $uri
      * @param array $requestModel
      * @param array $headers
+     * @return \Illuminate\Foundation\Testing\TestResponse
      */
     protected function apiPatch(string $uri, array $requestModel = [], array $headers = [])
     {
@@ -48,6 +51,7 @@ trait MakesApiRequests
      * @param string $uri
      * @param array $requestModel
      * @param array $headers
+     * @return \Illuminate\Foundation\Testing\TestResponse
      */
     protected function apiDelete(string $uri, array $requestModel = [], array $headers = [])
     {
